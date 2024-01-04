@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+ME=$(basename "$0")
+PROXY_USER="${PROXY_USER:-docker}"
+AUTHORIZED_KEYS_FILE="${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}"
+
+entrypoint_log() {
+	echo "$ME: $*"
+}
+
+entrypoint_log "INFO: Generate new host keys..."
+ssh-keygen -A
+
+entrypoint_log "INFO: Successfully generated host keys."
+exit 0

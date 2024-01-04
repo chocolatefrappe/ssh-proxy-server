@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+ME=sshd
+
+entrypoint_log() {
+	echo "$ME: $*"
+}
+
+entrypoint_log "INFO: Starting sshd server..."
+/usr/sbin/sshd -e -D
