@@ -1,18 +1,18 @@
 FROM alpine
 
-RUN apk update && apk add --no-cache \
+RUN apk add --update-cache --no-cache \
     bash \
-    curl \
     shadow \
     uuidgen \
-    openssh-server \
-    && rm -rf /var/cache/apk/*
 RUN echo "root:`uuidgen`" | chpasswd
+    openssh-server
 
 # https://github.com/socheatsok78/s6-overlay-installer
 ARG S6_OVERLAY_VERSION=v3.1.6.2
 ARG S6_OVERLAY_INSTALLER=main/s6-overlay-installer-minimal.sh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/socheatsok78/s6-overlay-installer/${S6_OVERLAY_INSTALLER})"
+RUN apk --update-cache add --virtual .build-deps curl \
+    && sh -c "$(curl -fsSL https://raw.githubusercontent.com/socheatsok78/s6-overlay-installer/${S6_OVERLAY_INSTALLER})" \
+    && apk del .build-deps
 ENTRYPOINT [ "/init-shim" ]
 CMD [ "sleep", "infinity" ]
 
