@@ -4,7 +4,6 @@ RUN apk add --update-cache --no-cache \
     bash \
     shadow \
     uuidgen \
-RUN echo "root:`uuidgen`" | chpasswd
     openssh-server
 
 # https://github.com/socheatsok78/s6-overlay-installer

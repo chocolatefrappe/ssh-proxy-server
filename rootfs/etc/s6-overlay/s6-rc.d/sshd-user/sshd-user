@@ -10,6 +10,8 @@ entrypoint_log() {
 }
 
 sleep 1
+entrypoint_log "INFO: Assigning random password to root..."
+echo "root:`uuidgen`" | chpasswd
 
 entrypoint_log "INFO: Creating user ${PROXY_USER}..."
 mkdir -p /${PROXY_USER} && {
