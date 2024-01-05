@@ -14,4 +14,3 @@ EXPOSE 22
 VOLUME [ "/keys" ]
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 CMD [ "/usr/sbin/sshd", "-e", "-D" ]
-# STOPSIGNAL SIGTERM
