@@ -4,7 +4,8 @@ RUN apk add --update-cache --no-cache \
     bash \
     shadow \
     uuidgen \
-    openssh-server
+    knock \
+    openssh-server \
 
 # https://github.com/socheatsok78/s6-overlay-installer
 ARG S6_OVERLAY_VERSION=v3.1.6.2
