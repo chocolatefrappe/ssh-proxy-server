@@ -9,7 +9,7 @@ entrypoint_log() {
 	fi
 }
 
-entrypoint_log "INFO: Generate random password for root user..."
+entrypoint_log "INFO: Force random password for root user..."
 echo "root:`uuidgen`" | chpasswd
 
 exit 0

@@ -11,7 +11,7 @@ entrypoint_log() {
 
 # check if host keys exist in /keys directory
 if [ -f /keys/ssh_host_rsa_key ]; then
-    entrypoint_log "INFO: Copying host keys from /keys directory..."
+    entrypoint_log "INFO: Copying existing ssh host keys from \"/keys\" directory..."
     cp -f /keys/ssh_host_* /etc/ssh
     chmod 600 /etc/ssh/ssh_host_*
 else
