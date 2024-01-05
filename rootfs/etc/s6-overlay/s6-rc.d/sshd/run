@@ -1,9 +1,14 @@
 #!/bin/bash
+# vim:sw=4:ts=4:et
+
 set -e
+
 ME=sshd
 
 entrypoint_log() {
-	echo "$ME: $*"
+	if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
+		echo "$@"
+	fi
 }
 
 {
@@ -44,5 +49,5 @@ entrypoint_log() {
 entrypoint_log "INFO: Generate new host keys..."
 ssh-keygen -A
 
-entrypoint_log "INFO: Starting sshd server..."
+entrypoint_log "INFO: Starting $ME..."
 /usr/sbin/sshd -e -D
