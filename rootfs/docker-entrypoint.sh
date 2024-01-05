@@ -1,6 +1,5 @@
 #!/bin/sh
 # vim:sw=4:ts=4:et
-
 set -e
 
 entrypoint_log() {
@@ -42,4 +41,4 @@ else
 	entrypoint_log "$0: No files found in /docker-entrypoint.d/, skipping configuration"
 fi
 
-exit 0
+exec "$@"
