@@ -11,6 +11,13 @@ entrypoint_log() {
 	fi
 }
 
+{
+	export SSH_OPEN_SEQUENCE=${SSH_OPEN_SEQUENCE:-"20001,20002,20003"}
+	export SSH_CLOSE_SEQUENCE=${SSH_CLOSE_SEQUENCE:-"20003,20002,20001"}
+	entrypoint_log "INFO: Generating knockd config..."
+	envsubst < /etc/knockd.conf.template > /etc/knockd.conf
+}
+
 entrypoint_log "INFO: Starting $ME..."
 /usr/sbin/knockd --verbose | while read -r line; do
 	entrypoint_log "INFO: $ME: $line"
