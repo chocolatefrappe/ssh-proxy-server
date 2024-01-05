@@ -6,7 +6,6 @@ RUN apk --update-cache --no-cache add \
     shadow \
     uuidgen \
     openssh-server \
-    envsubst \
     && rm -rf /var/cache/apk/*
 
 ADD rootfs /
