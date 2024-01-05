@@ -7,7 +7,7 @@ ME=sshd
 
 entrypoint_log() {
 	if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-		echo "$@"
+		echo "$ME: $@"
 	fi
 }
 
