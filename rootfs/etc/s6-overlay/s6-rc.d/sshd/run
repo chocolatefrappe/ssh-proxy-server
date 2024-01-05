@@ -12,11 +12,11 @@ entrypoint_log() {
 }
 
 {
-	PROXY_USER="${PROXY_USER:-docker}"
+	PROXY_USER="${PROXY_USER:-toor}"
 	PROXY_USER_SSH_DIR="/${PROXY_USER}/.ssh"
 	AUTHORIZED_KEYS_FILE="${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}"
 
-	entrypoint_log "INFO: Assigning random password to root..."
+	entrypoint_log "INFO: Generate random password for root user..."
 	echo "root:`uuidgen`" | chpasswd
 
 	entrypoint_log "INFO: Creating user ${PROXY_USER}..."
