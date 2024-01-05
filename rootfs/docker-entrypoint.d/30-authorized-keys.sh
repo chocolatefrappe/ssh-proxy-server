@@ -3,7 +3,7 @@
 set -e
 ME=$(basename $0)
 PROXY_USER="${PROXY_USER:-toor}"
-PROXY_USER_HOME="/home/${PROXY_USER}"
+PROXY_USER_HOME="/tmp/${PROXY_USER}"
 PROXY_USER_SSH_DIR="${PROXY_USER_HOME}/.ssh"
 AUTHORIZED_KEYS_FILE="${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}"
 
