@@ -4,7 +4,6 @@ RUN apk --update-cache --no-cache add \
     bash \
     shadow \
     uuidgen \
-    knock \
     openssh-server \
     envsubst \
     && rm -rf /var/cache/apk/*
