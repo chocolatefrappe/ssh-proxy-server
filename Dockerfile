@@ -20,3 +20,4 @@ CMD [ "sleep", "infinity" ]
 ADD rootfs /
 EXPOSE 22
 STOPSIGNAL SIGTERM
+VOLUME [ "/keys" ]
