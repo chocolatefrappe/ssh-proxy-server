@@ -18,13 +18,15 @@ entrypoint_log_n() {
 	fi
 }
 
+
 entrypoint_log "INFO: Creating \"${PROXY_USER}\" user/group..."
-mkdir -p ${PROXY_USER_HOME} && {
+test -d "${PROXY_USER_HOME}" && rm -rf "${PROXY_USER_HOME}"
+mkdir -p "${PROXY_USER_HOME}" && {
 	addgroup ${PROXY_USER}
-	adduser --ingroup ${PROXY_USER} --shell /bin/false --home ${PROXY_USER_HOME} --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
+	adduser --ingroup ${PROXY_USER} --shell /bin/false --home "${PROXY_USER_HOME}" --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
 	usermod -p '*' ${PROXY_USER}
-	chown -R ${PROXY_USER}:${PROXY_USER} ${PROXY_USER_HOME}
-	chmod -R 700 ${PROXY_USER_HOME}
+	chown -R ${PROXY_USER}:${PROXY_USER} "${PROXY_USER_HOME}"
+	chmod -R 700 "${PROXY_USER_HOME}"
 }
 
 if [ -d "${PROXY_USER_SSH_DIR}" ]; then
@@ -37,8 +39,8 @@ mkdir -p ${PROXY_USER_SSH_DIR} && {
 	chown -R ${PROXY_USER}:${PROXY_USER} "${PROXY_USER_SSH_DIR}"
 }
 
-entrypoint_log_n "INFO: Import authorized keys from \"/authorized_keys.d\" directory..."
 if [ -d "/authorized_keys.d" ]; then
+	entrypoint_log_n "INFO: Import authorized keys from \"/authorized_keys.d\" directory..."
 	for f in /authorized_keys.d/*; do
 		if [ -f "${f}" ]; then
 			echo -n " ["
@@ -51,8 +53,8 @@ if [ -d "/authorized_keys.d" ]; then
 	done
 fi && echo
 
-entrypoint_log_n "INFO: Import authorized keys form \"${AUTHORIZED_KEYS_FILE}\" secret..."
 if [ -f "${AUTHORIZED_KEYS_FILE}" ]; then
+	entrypoint_log_n "INFO: Import authorized keys form \"${AUTHORIZED_KEYS_FILE}\" secret..."
 	echo -n " ["
 	cat "${AUTHORIZED_KEYS_FILE}" | while read line; do
 		echo -n "#"
