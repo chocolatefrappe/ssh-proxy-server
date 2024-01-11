@@ -7,7 +7,7 @@ services:
       - source: authorized_keys
         mode: 0700
     volumes:
-      - keys:/keys
+      - server_data:/data
     ports:
       - mode: host
         target: 22
@@ -36,4 +36,4 @@ secrets:
   authorized_keys:
     file: authorized_keys
 volumes:
-  keys:
+  server_data:
