@@ -1,7 +1,6 @@
 FROM alpine
 
 RUN apk --update-cache --no-cache add \
-    tini \
     bash \
     curl \
     shadow \
@@ -9,9 +8,14 @@ RUN apk --update-cache --no-cache add \
     openssh-server \
     && rm -rf /var/cache/apk/*
 
+# https://github.com/socheatsok78/s6-overlay-installer
+ARG S6_OVERLAY_VERSION=v3.1.5.0
+ARG S6_OVERLAY_INSTALLER=main/s6-overlay-installer-minimal.sh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/socheatsok78/s6-overlay-installer/${S6_OVERLAY_INSTALLER})"
+
 ADD rootfs /
 EXPOSE 22
 ENV DATA_DIR=/data
 VOLUME [ "${DATA_DIR}", "/authorized_keys.d" ]
-ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
+ENTRYPOINT [ "/init-shim", "/docker-entrypoint.sh"]
 CMD [ "/usr/sbin/sshd", "-e", "-D" ]
