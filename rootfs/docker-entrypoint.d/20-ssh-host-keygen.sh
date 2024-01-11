@@ -30,9 +30,9 @@ fi
 
 # Checking host keys
 {
-	entrypoint_log "INFO: Checking host keys..."
 	ls /etc/ssh/ssh_host_*.pub | while read -r line; do
-		ssh-keygen -lvf $line
+		entrypoint_log "INFO: Showing host keys fingerprint: $line"
+		ssh-keygen -lvf "$line"
 	done
 }
 
