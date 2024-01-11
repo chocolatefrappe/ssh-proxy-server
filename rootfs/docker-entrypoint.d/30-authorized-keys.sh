@@ -18,7 +18,6 @@ entrypoint_log_n() {
 	fi
 }
 
-
 entrypoint_log "INFO: Creating \"${PROXY_USER}\" user/group..."
 test -d "${PROXY_USER_HOME}" && rm -rf "${PROXY_USER_HOME}"
 mkdir -p "${PROXY_USER_HOME}" && {
