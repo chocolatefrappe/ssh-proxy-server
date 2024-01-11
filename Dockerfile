@@ -3,6 +3,7 @@ FROM alpine
 RUN apk --update-cache --no-cache add \
     tini \
     bash \
+    curl \
     shadow \
     uuidgen \
     openssh-server \
