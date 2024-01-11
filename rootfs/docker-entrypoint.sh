@@ -9,7 +9,7 @@ entrypoint_log() {
 }
 
 # Print banner
-test -f "/etc/ssh/banner" && cat /etc/ssh/banner
+test -f "/etc/ssh/banner" && cat "/etc/ssh/banner"
 
 if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -maxdepth 1 -type f -print -quit 2>/dev/null | read v; then
 	entrypoint_log "$0: /docker-entrypoint.d/ is not empty, will attempt to perform configuration"
