@@ -11,15 +11,23 @@ entrypoint_log() {
 
 # check if host keys exist in /keys directory
 if [ -f /keys/ssh_host_rsa_key ]; then
-    entrypoint_log "INFO: Copying existing ssh host keys from \"/keys\" directory..."
-    cp -f /keys/ssh_host_* /etc/ssh
-    chmod 600 /etc/ssh/ssh_host_*
+	entrypoint_log "INFO: Copying existing ssh host keys from \"/keys\" directory..."
+	cp -f /keys/ssh_host_* /etc/ssh
+	chmod 600 /etc/ssh/ssh_host_*
 else
-    entrypoint_log "INFO: Generate new host keys..."
-    ssh-keygen -A | while read -r line; do
-        entrypoint_log "INFO: $line"
-    done
-    cp -f /etc/ssh/ssh_host_* /keys
+	entrypoint_log "INFO: Generate new host keys..."
+	ssh-keygen -A | while read -r line; do
+		entrypoint_log "INFO: $line"
+	done
+	cp -f /etc/ssh/ssh_host_* /keys
 fi
+
+# Checking host keys
+{
+	entrypoint_log "INFO: Checking host keys..."
+	ls /etc/ssh/ssh_host_*.pub | while read -r line; do
+		ssh-keygen -lvf $line
+	done
+}
 
 exit 0
