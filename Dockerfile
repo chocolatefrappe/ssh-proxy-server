@@ -11,6 +11,7 @@ RUN apk --update-cache --no-cache add \
 
 ADD rootfs /
 EXPOSE 22
-VOLUME [ "/keys", "/authorized_keys.d" ]
+ENV DATA_DIR=/data
+VOLUME [ "${DATA_DIR}", "/authorized_keys.d" ]
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 CMD [ "/usr/sbin/sshd", "-e", "-D" ]
