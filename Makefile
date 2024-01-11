@@ -16,7 +16,10 @@ build:
 	@echo
 
 run:
-	docker run -it --rm -v ./example/authorized_keys:/run/secrets/authorized_keys -p 2222:22 docker.io/chocolatefrappe/ssh-proxy-server:local
+	docker run -it --rm \
+		-p 2222:22 \
+		-v ./example/authorized_keys:/run/secrets/authorized_keys \
+		docker.io/chocolatefrappe/ssh-proxy-server:local
 
 shell:
 	docker run -it --rm docker.io/chocolatefrappe/ssh-proxy-server:local bash
