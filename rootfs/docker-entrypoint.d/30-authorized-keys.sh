@@ -4,51 +4,16 @@ set -e
 ME=$(basename $0)
 PROXY_USER="${PROXY_USER:-toor}"
 PROXY_USER_HOME="/tmp/${PROXY_USER}"
-AUTHORIZED_KEYS_FILE="${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}"
 
 entrypoint_log() {
 	if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
 		echo "$ME: $@"
 	fi
 }
-entrypoint_log_n() {
-	if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-		echo -n "$ME: $@"
-	fi
-}
 
 entrypoint_log "INFO: Creating \"${PROXY_USER}\" user/group..."
-test -d "${PROXY_USER_HOME}" && rm -rf "${PROXY_USER_HOME}"
-mkdir -p "${PROXY_USER_HOME}" && {
-	addgroup ${PROXY_USER}
-	adduser --ingroup ${PROXY_USER} --shell /bin/false --home "${PROXY_USER_HOME}" --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
-	usermod -p '*' ${PROXY_USER}
-	chown -R ${PROXY_USER}:${PROXY_USER} "${PROXY_USER_HOME}"
-	chmod -R 700 "${PROXY_USER_HOME}"
-}
-
-if [ -d "/authorized_keys.d" ]; then
-	entrypoint_log_n "INFO: Import authorized keys from \"/authorized_keys.d\" directory..."
-	for f in /authorized_keys.d/*; do
-		if [ -f "${f}" ]; then
-			echo -n " ["
-			cat "${f}" | while read line; do
-				echo -n "#"
-				echo "${line}" >> "/etc/ssh/authorized_keys"
-			done
-			echo -n "]" && echo
-		fi
-	done
-fi && echo
-
-if [ -f "${AUTHORIZED_KEYS_FILE}" ]; then
-	entrypoint_log_n "INFO: Import authorized keys form \"${AUTHORIZED_KEYS_FILE}\" secret..."
-	echo -n " ["
-	cat "${AUTHORIZED_KEYS_FILE}" | while read line; do
-		echo -n "#"
-		echo "${line}" >> "/etc/ssh/authorized_keys"
-	done
-	echo -n "]"
-fi && echo
+addgroup ${PROXY_USER}
+adduser --ingroup ${PROXY_USER} --shell /bin/false  --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
+usermod -p '*' ${PROXY_USER}
 
 exit 0

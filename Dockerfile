@@ -7,6 +7,7 @@ RUN apk --update-cache --no-cache add \
     uuidgen \
     openssh-server \
     ssh-import-id \
+    inotify-tools \
     && rm -rf /var/cache/apk/*
 
 # https://github.com/socheatsok78/s6-overlay-installer
