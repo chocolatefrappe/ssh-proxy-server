@@ -1,2 +1,18 @@
-#!/command/execlineb -P
-/usr/sbin/sshd -e -D
+#!/bin/bash
+# vim:sw=4:ts=4:et
+set -e
+ME=sshd
+
+entrypoint_log() {
+	if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
+		echo "$ME: $@"
+	fi
+}
+
+entrypoint_log "INFO: Waiting for host keys to be generated..."
+while [ ! -f /etc/ssh/ssh_host_rsa_key ]; do
+    sleep 0.1
+done
+
+entrypoint_log "INFO: Starting sshd..."
+exec /usr/sbin/sshd -e -D
