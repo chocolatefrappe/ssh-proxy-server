@@ -23,8 +23,9 @@ function import_authorized_keys() {
 		touch "${out_file}"
 	fi
 
+	# Iterate over all files in the /authorized_keys.d directory
 	for file in ${in_dir}/*; do
-		test -f "${file}" && {
+		if [ -f "${file}" ]; then
 			entrypoint_log "INFO: Importing public key: \"${file}\""
 			# verify that the file is a valid ssh public key
 			ssh-keygen -l -f "${file}" > /dev/null 2>&1 || {
@@ -33,7 +34,7 @@ function import_authorized_keys() {
 			}
 			# Concatenate the file to the authorized_keys file
 			cat "${file}" >> ${out_file}
-		}
+		fi
 	done
 }
 
@@ -49,7 +50,6 @@ inotifywait --quiet -r -m -e create,delete "/authorized_keys.d" |
 		# Remove previous authorized_keys file and rename authorized_keys2 to authorized_keys
 		rm "/etc/ssh/authorized_keys"
 		mv "/etc/ssh/authorized_keys2" "/etc/ssh/authorized_keys"
-
 		# Restart sshd
 		s6-svc -r /run/service/sshd
 	done
