@@ -1,2 +1,2 @@
 #!/command/execlineb -P
-/docker-entrypoint.sh /usr/sbin/sshd -e -D
+/usr/sbin/sshd -e -D
