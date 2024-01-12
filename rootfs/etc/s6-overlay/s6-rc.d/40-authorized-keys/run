@@ -24,16 +24,19 @@ function import_authorized_keys() {
 	fi
 
 	# Iterate over all files in the /authorized_keys.d directory
-	for file in ${in_dir}/*; do
+	for file in ${in_dir}/*.pub; do
 		if [ -f "${file}" ]; then
-			entrypoint_log "INFO: Importing public key: \"${file}\""
 			# verify that the file is a valid ssh public key
-			ssh-keygen -l -f "${file}" > /dev/null 2>&1 || {
+			entrypoint_log "INFO: Verifying public key: \"${file}\""
+			if ssh-keygen -lf "${file}"; then
+				# Concatenate the file to the authorized_keys file
+				cat "${file}" >> ${out_file}
+				entrypoint_log "INFO: Authorized key: \"${file}\""
+			else
 				entrypoint_log "ERROR: \"${file}\" is not a valid ssh public key"
 				continue
-			}
-			# Concatenate the file to the authorized_keys file
-			cat "${file}" >> ${out_file}
+			fi
+
 		fi
 	done
 }
