@@ -4,7 +4,8 @@ services:
     environment:
       - AUTHORIZED_KEYS_FILE=${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}
     secrets:
-      - source: authorized_keys
+      - source: ssh-forward-client.pub
+        target: /authorized_keys.d/ssh-forward-client.pub
         mode: 0700
     volumes:
       - server_data:/data
@@ -33,7 +34,7 @@ services:
         max_attempts: 3
         window: 120s
 secrets:
-  authorized_keys:
-    file: authorized_keys
+  ssh-forward-client.pub:
+    file: ssh-forward-client.pub
 volumes:
   server_data:

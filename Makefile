@@ -18,7 +18,7 @@ build:
 run:
 	docker run -it --rm \
 		-p 2222:22 \
-		-v ./example/authorized_keys:/run/secrets/authorized_keys \
+		-v ./example/ssh-forward-client.pub:/authorized_keys.d/ssh-forward-client.pub \
 		docker.io/chocolatefrappe/ssh-proxy-server:local
 
 shell:

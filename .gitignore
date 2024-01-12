@@ -1,3 +1,4 @@
 .vscode/
 example/.env
+example/*.pub
 example/authorized_keys
