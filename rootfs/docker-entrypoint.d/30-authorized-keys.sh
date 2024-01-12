@@ -4,7 +4,6 @@ set -e
 ME=$(basename $0)
 PROXY_USER="${PROXY_USER:-toor}"
 PROXY_USER_HOME="/tmp/${PROXY_USER}"
-PROXY_USER_SSH_DIR="${PROXY_USER_HOME}/.ssh"
 AUTHORIZED_KEYS_FILE="${AUTHORIZED_KEYS_FILE:-/run/secrets/authorized_keys}"
 
 entrypoint_log() {
@@ -28,16 +27,6 @@ mkdir -p "${PROXY_USER_HOME}" && {
 	chmod -R 700 "${PROXY_USER_HOME}"
 }
 
-if [ -d "${PROXY_USER_SSH_DIR}" ]; then
-	entrypoint_log "INFO: Remove existing \"authorized_keys\"..."
-	rm -rf "${PROXY_USER_SSH_DIR}"
-fi
-mkdir -p ${PROXY_USER_SSH_DIR} && {
-	touch "${PROXY_USER_SSH_DIR}/authorized_keys"
-	chmod -R 700 "${PROXY_USER_SSH_DIR}"
-	chown -R ${PROXY_USER}:${PROXY_USER} "${PROXY_USER_SSH_DIR}"
-}
-
 if [ -d "/authorized_keys.d" ]; then
 	entrypoint_log_n "INFO: Import authorized keys from \"/authorized_keys.d\" directory..."
 	for f in /authorized_keys.d/*; do
@@ -45,7 +34,7 @@ if [ -d "/authorized_keys.d" ]; then
 			echo -n " ["
 			cat "${f}" | while read line; do
 				echo -n "#"
-				echo "${line}" >> "${PROXY_USER_SSH_DIR}/authorized_keys"
+				echo "${line}" >> "/etc/ssh/authorized_keys"
 			done
 			echo -n "]" && echo
 		fi
@@ -57,7 +46,7 @@ if [ -f "${AUTHORIZED_KEYS_FILE}" ]; then
 	echo -n " ["
 	cat "${AUTHORIZED_KEYS_FILE}" | while read line; do
 		echo -n "#"
-		echo "${line}" >> "${PROXY_USER_SSH_DIR}/authorized_keys"
+		echo "${line}" >> "/etc/ssh/authorized_keys"
 	done
 	echo -n "]"
 fi && echo
