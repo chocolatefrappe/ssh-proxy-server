@@ -13,7 +13,7 @@ entrypoint_log() {
 
 entrypoint_log "INFO: Creating \"${PROXY_USER}\" user/group..."
 addgroup ${PROXY_USER}
-adduser --ingroup ${PROXY_USER} --shell /bin/false  --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
+adduser --ingroup ${PROXY_USER} --shell /bin/false --no-create-home --gecos ${PROXY_USER} --disabled-password ${PROXY_USER}
 usermod -p '*' ${PROXY_USER}
 
 exit 0
