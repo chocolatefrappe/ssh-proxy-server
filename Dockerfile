@@ -20,4 +20,4 @@ EXPOSE 22
 ENV DATA_DIR=/data
 VOLUME [ "${DATA_DIR}", "/authorized_keys.d" ]
 ENTRYPOINT [ "/init-shim", "/docker-entrypoint.sh"]
-CMD [ "/usr/sbin/sshd", "-e", "-D" ]
+CMD [ "sleep", "infinity" ]
