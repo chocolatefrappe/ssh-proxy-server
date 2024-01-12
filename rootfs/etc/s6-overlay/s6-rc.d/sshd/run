@@ -9,10 +9,13 @@ entrypoint_log() {
 	fi
 }
 
-entrypoint_log "INFO: Waiting for host keys to be generated..."
-while [ ! -f /etc/ssh/ssh_host_rsa_key ]; do
-    sleep 0.1
-done
+# Waiting for host keys to be generated
+if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
+	entrypoint_log "INFO: Waiting for host keys to be generated..."
+	while [ ! -f /etc/ssh/ssh_host_rsa_key ]; do
+		sleep 0.1
+	done
+fi
 
 entrypoint_log "INFO: Starting sshd..."
 exec /usr/sbin/sshd -e -D
