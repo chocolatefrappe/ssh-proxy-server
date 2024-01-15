@@ -29,9 +29,7 @@ services:
           cpus: '0.25'
           memory: 64M
       restart_policy:
-        condition: on-failure
         delay: 15s
-        max_attempts: 3
         window: 120s
 secrets:
   ssh-forward-client.pub:
